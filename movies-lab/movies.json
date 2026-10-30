@@ -1,0 +1,19 @@
+{
+  "site": "CinemaClub",
+  "updatedAt": "2026-10-01",
+  "movies": [
+    {
+      "id": 1,
+      "title": "Inception",
+      "year": 2010,
+      "genres": ["Sci-Fi", "Action"],
+      "rating": 8.8,
+      "duration": 148,
+      "available": true,
+      "director": {
+        "name": "Christopher Nolan",
+        "country": "UK"
+      }
+    }
+  ]
+}
