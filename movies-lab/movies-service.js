@@ -47,3 +47,4 @@ export const getDirectorTitles = (movies, directorName) =>
       ? { ...movie, reviews: [...movie.reviews, review] }
       : movie
   );
+  
