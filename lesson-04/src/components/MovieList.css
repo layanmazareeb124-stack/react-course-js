@@ -1,0 +1,6 @@
+.movie-list__empty {
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed #777;
+  border-radius: 8px;
+}

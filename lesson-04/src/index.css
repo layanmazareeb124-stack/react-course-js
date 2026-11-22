@@ -1,0 +1,19 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.toolbar__divider {
+  width: 1px;
+  height: 24px;
+  background: #777;
+}
+
+.btn--active {
+  background: #3453b5;
+  color: white;
+}
