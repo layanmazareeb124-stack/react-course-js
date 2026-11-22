@@ -4,8 +4,11 @@ import Footer from "./components/Footer.jsx";
 import MovieList from "./components/MovieList.jsx";
 import { movies } from "./data/movies.js";
 
+
 export default function App() {
   const [onlyAvailable, setOnlyAvailable] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(4);
 
   const topRated = movies.filter(movie => movie.rating >= 8.7);
 
@@ -13,30 +16,79 @@ export default function App() {
     .map(movie => movie.genre)
     .filter((genre, index, all) => all.indexOf(genre) === index);
 
-  console.log(genres);
+  let shownMovies = movies;
 
-  const shownMovies = onlyAvailable
-    ? movies.filter(movie => movie.available)
-    : movies;
+  if (onlyAvailable) {
+    shownMovies = shownMovies.filter(movie => movie.available);
+  }
+
+  if (selectedGenre !== "all") {
+    shownMovies = shownMovies.filter(movie => movie.genre === selectedGenre);
+  }
+
+  const visibleMovies = shownMovies.slice(0, visibleCount);
 
   return (
     <>
       <Header />
-      <main dir="rtl">
+
+      <main className="catalog" dir="rtl">
         <h1>הקטלוג</h1>
 
         <MovieList title="הכי מדורגים" movies={topRated} />
 
-        <button
-          type="button"
-          aria-pressed={onlyAvailable}
-          onClick={() => setOnlyAvailable(!onlyAvailable)}
-        >
-          רק זמינים לצפייה
-        </button>
+        <div className="toolbar">
+          <button
+            type="button"
+            className={onlyAvailable ? "btn btn--active" : "btn"}
+            aria-pressed={onlyAvailable}
+            onClick={() => setOnlyAvailable(previous => !previous)}
+          >
+            רק זמינים לצפייה
+          </button>
 
-        <MovieList title="כל הסרטים" movies={shownMovies} />
+          <span className="toolbar__divider" aria-hidden="true" />
+
+          <button
+            type="button"
+            className={selectedGenre === "all" ? "btn btn--active" : "btn"}
+            aria-pressed={selectedGenre === "all"}
+            onClick={() => setSelectedGenre("all")}
+          >
+            הכל
+          </button>
+
+          {genres.map(genre => (
+            <button
+              key={genre}
+              type="button"
+              className={selectedGenre === genre ? "btn btn--active" : "btn"}
+              aria-pressed={selectedGenre === genre}
+              onClick={() => setSelectedGenre(genre)}
+            >
+              {genre}
+            </button>
+          ))}
+        </div>
+
+        <MovieList
+          title={`כל הסרטים (${shownMovies.length})`}
+          movies={visibleMovies}
+        />
+
+        {visibleCount < shownMovies.length && (
+          <div className="more">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setVisibleCount(previous => previous + 4)}
+            >
+              הצג עוד
+            </button>
+          </div>
+        )}
       </main>
+
       <Footer />
     </>
   );

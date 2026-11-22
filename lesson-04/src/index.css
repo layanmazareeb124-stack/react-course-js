@@ -1,3 +1,9 @@
+.catalog {
+  width: min(960px, calc(100vw - 32px));
+  margin-inline: auto;
+  padding-block: 24px;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -13,7 +19,20 @@
   background: #777;
 }
 
-.btn--active {
+.catalog .btn {
+  padding: 8px 14px;
+  border: 1px solid #777;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.catalog .btn--active {
   background: #3453b5;
   color: white;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
 }

@@ -1,5 +1,21 @@
+.movie-list {
+  margin-block: 24px;
+}
+
+.movie-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 16px;
+}
+
+.movie-card {
+  padding: 16px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+}
+
 .movie-list__empty {
-  padding: 32px;
+  padding: 24px;
   text-align: center;
   border: 1px dashed #777;
   border-radius: 8px;
