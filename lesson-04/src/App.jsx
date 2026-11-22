@@ -4,11 +4,11 @@ import Footer from "./components/Footer.jsx";
 import MovieList from "./components/MovieList.jsx";
 import { movies } from "./data/movies.js";
 
-
 export default function App() {
   const [onlyAvailable, setOnlyAvailable] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [visibleCount, setVisibleCount] = useState(4);
+  const [personalRatings, setPersonalRatings] = useState({});
 
   const topRated = movies.filter(movie => movie.rating >= 8.7);
 
@@ -28,6 +28,18 @@ export default function App() {
 
   const visibleMovies = shownMovies.slice(0, visibleCount);
 
+  function chooseGenre(genre) {
+    setSelectedGenre(genre);
+    setVisibleCount(4);
+  }
+
+  function rateMovie(movieId, star) {
+    setPersonalRatings(previous => ({
+      ...previous,
+      [movieId]: previous[movieId] === star ? 0 : star,
+    }));
+  }
+
   return (
     <>
       <Header />
@@ -35,7 +47,12 @@ export default function App() {
       <main className="catalog" dir="rtl">
         <h1>הקטלוג</h1>
 
-        <MovieList title="הכי מדורגים" movies={topRated} />
+        <MovieList
+          title="הכי מדורגים"
+          movies={topRated}
+          personalRatings={personalRatings}
+          onRateMovie={rateMovie}
+        />
 
         <div className="toolbar">
           <button
@@ -53,7 +70,7 @@ export default function App() {
             type="button"
             className={selectedGenre === "all" ? "btn btn--active" : "btn"}
             aria-pressed={selectedGenre === "all"}
-            onClick={() => setSelectedGenre("all")}
+            onClick={() => chooseGenre("all")}
           >
             הכל
           </button>
@@ -64,7 +81,7 @@ export default function App() {
               type="button"
               className={selectedGenre === genre ? "btn btn--active" : "btn"}
               aria-pressed={selectedGenre === genre}
-              onClick={() => setSelectedGenre(genre)}
+              onClick={() => chooseGenre(genre)}
             >
               {genre}
             </button>
@@ -74,6 +91,8 @@ export default function App() {
         <MovieList
           title={`כל הסרטים (${shownMovies.length})`}
           movies={visibleMovies}
+          personalRatings={personalRatings}
+          onRateMovie={rateMovie}
         />
 
         {visibleCount < shownMovies.length && (
